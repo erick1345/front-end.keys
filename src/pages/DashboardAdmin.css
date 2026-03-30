@@ -1,0 +1,62 @@
+.dashboard-admin {
+  max-width: 1300px;
+  margin: 40px auto;
+  padding: 20px;
+  color: white;
+}
+
+.dashboard-admin h1 {
+  font-size: 34px;
+  margin-bottom: 30px;
+}
+
+.dashboard-cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.card {
+  flex: 1;
+  min-width: 250px;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card p {
+  font-size: 30px;
+  color: #38bdf8;
+  font-weight: bold;
+}
+
+.dashboard-list {
+  background: #0f172a;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.table-header,
+.game-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 15px 0;
+  border-bottom: 1px solid #1e293b;
+}
+
+.table-header {
+  font-weight: bold;
+  color: #38bdf8;
+}
+
+.game-item span {
+  color: white;
+}
