@@ -108,7 +108,7 @@ function Library() {
             className="library-store-button"
             onClick={() => navigate('/store')}
           >
-            Ir para Store
+            Ir para Loja
           </button>
         </div>
 

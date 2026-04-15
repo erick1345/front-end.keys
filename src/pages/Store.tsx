@@ -178,7 +178,7 @@ function Store() {
     <div className="store-container">
       <nav className="store-nav">
         <div className="logo" onClick={() => navigate('/store')}>
-          PlayHub Store
+          PlayHub
         </div>
 
         <div className="nav-actions">
@@ -213,7 +213,7 @@ function Store() {
       </nav>
 
       <header className="store-header">
-        <h1>PlayHub Store</h1>
+        <h1>Loja</h1>
       </header>
 
       <h2 style={{ paddingLeft: '5%', marginBottom: '30px' }}>

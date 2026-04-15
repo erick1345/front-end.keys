@@ -134,7 +134,7 @@ function Payment() {
     <div className="payment-page">
       <nav className="payment-nav">
         <div className="payment-logo" onClick={() => navigate('/store')}>
-          PlayHub Store
+          PlayHub
         </div>
 
         <div className="payment-nav-actions">

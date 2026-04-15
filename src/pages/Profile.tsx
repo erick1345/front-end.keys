@@ -120,7 +120,7 @@ function Profile() {
           </button>
 
           <button onClick={() => navigate('/store')}>
-            ← Voltar para Store
+            ← Voltar para loja
           </button>
         </div>
 

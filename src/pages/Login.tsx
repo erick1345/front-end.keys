@@ -63,7 +63,7 @@ const Login: React.FC = () => {
           color: '#38bdf8',
         }}
       >
-        Keys-Forge
+        PlayHub
       </h1>
 
       <form onSubmit={handleSubmit}>

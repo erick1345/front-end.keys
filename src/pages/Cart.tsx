@@ -77,7 +77,7 @@ function Cart() {
         </div>
 
         <button onClick={() => navigate('/store')}>
-          ← Voltar para Store
+          ← Voltar para Loja
         </button>
       </div>
 
@@ -87,7 +87,7 @@ function Cart() {
           <p>Adicione jogos da loja para continuar.</p>
 
           <button onClick={() => navigate('/store')}>
-            Ir para a Store
+            Ir para a Loja
           </button>
         </div>
       ) : (
