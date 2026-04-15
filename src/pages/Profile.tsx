@@ -1,57 +1,137 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import Input from '../components/Input';
+import './Profile.css';
 
-const Profile: React.FC = () => {
-  const { user, login } = useAuth();
+function Profile() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ nome: '', email: '', cpf: '' });
 
-  useEffect(() => {
-    if (user?.id) {
-      api.get(`/usuarios/${user.id}`).then(res => setFormData(res.data));
+  const user = JSON.parse(localStorage.getItem('userUser') || 'null');
+
+  const [nome, setNome] = useState(user?.nome || '');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [toast, setToast] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  const showToast = (message: string) => {
+    setToast(message);
+    setTimeout(() => setToast(''), 2500);
+  };
+
+  const senhaForte = (valor: string) => {
+    return valor.length >= 8 && /\d/.test(valor);
+  };
+
+  const salvarPerfil = async () => {
+    if (!nome.trim()) {
+      showToast('Preencha o nome');
+      return;
     }
-  }, [user]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    if ((senha && !confirmarSenha) || (!senha && confirmarSenha)) {
+      showToast('Preencha os dois campos de senha');
+      return;
+    }
+
+    if (senha && senha !== confirmarSenha) {
+      showToast('As senhas não coincidem');
+      return;
+    }
+
+    if (senha && !senhaForte(senha)) {
+      showToast('A senha deve ter no mínimo 8 caracteres e 1 número');
+      return;
+    }
+
     try {
-      await api.put(`/usuarios/${user?.id}`, { nome: formData.nome, cpf: formData.cpf });
-      alert('Perfil atualizado com sucesso!');
-      
-      const updatedUser = { ...user!, nome: formData.nome, cpf: formData.cpf };
-      const token = localStorage.getItem('@KeysForge:token') || '';
-      login(updatedUser, token);
-      
-      navigate('/dashboard');
-    } catch (err: any) {
-      // Pega a mensagem vinda do Backend (ex: "CPF inválido!")
-      const mensagem = err.response?.data?.message || 'Erro ao atualizar perfil';
-      alert(mensagem); 
+      setSaving(true);
+
+      const payload: { nome: string; senha?: string } = {
+        nome: nome.trim()
+      };
+
+      if (senha) {
+        payload.senha = senha;
+      }
+
+      const res = await api.put('/users/profile', payload);
+
+      const updatedUser = {
+        ...user,
+        ...res.data.user
+      };
+
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+
+      showToast('Perfil atualizado com sucesso');
+
+      setSenha('');
+      setConfirmarSenha('');
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || 'Erro ao atualizar perfil';
+
+      showToast(message);
+    } finally {
+      setSaving(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: '450px', margin: '50px auto', color: 'white', background: '#333', padding: '30px', borderRadius: '8px' }}>
-      <h2 style={{ marginBottom: '20px' }}>Meu Perfil</h2>
-      <form onSubmit={handleSubmit}>
-        <Input label="Nome Completo" value={formData.nome} onChange={e => setFormData({...formData, nome: e.target.value})} required />
-        <Input label="E-mail" value={formData.email} disabled style={{ opacity: 0.6, cursor: 'not-allowed' }} />
-        <Input label="CPF" value={formData.cpf} onChange={e => setFormData({...formData, cpf: e.target.value})} required />
-        
-        <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-          <button type="submit" style={{ flex: 1, padding: '12px', background: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
-            Salvar
+    <div className="profile-container">
+      <div className="profile-card">
+        <h1>Perfil do Usuário 👤</h1>
+
+        <div className="profile-info">
+          <label>Nome</label>
+          <input
+            type="text"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+
+          <label>Email</label>
+          <input type="text" value={user?.email || ''} disabled />
+
+          <label>CPF</label>
+          <input type="text" value={user?.cpf || ''} disabled />
+
+          <label>Nova senha</label>
+          <input
+            type="password"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            placeholder="Digite nova senha"
+          />
+
+          <label>Confirmar senha</label>
+          <input
+            type="password"
+            value={confirmarSenha}
+            onChange={(e) => setConfirmarSenha(e.target.value)}
+            placeholder="Confirme a senha"
+          />
+        </div>
+
+        <div className="profile-actions">
+          <button onClick={salvarPerfil} disabled={saving}>
+            {saving ? 'Salvando...' : 'Salvar alterações'}
           </button>
-          <button type="button" onClick={() => navigate('/dashboard')} style={{ flex: 1, padding: '12px', background: '#666', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-            Voltar
+
+          <button onClick={() => navigate('/store')}>
+            ← Voltar para Store
           </button>
         </div>
-      </form>
+
+        {toast && (
+          <div className="toast-message">
+            {toast}
+          </div>
+        )}
+      </div>
     </div>
   );
-};
+}
 
 export default Profile;

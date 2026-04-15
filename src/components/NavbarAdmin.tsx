@@ -5,7 +5,8 @@ function NavbarAdmin() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUser');
     navigate('/login');
   };
 

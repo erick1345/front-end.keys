@@ -1,59 +1,99 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import { IUser } from '@shared/globalTypes';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
-interface AuthContextData {
-  user: IUser | null;
-  authenticated: boolean;
-  login: (userData: IUser, token: string) => void;
+type User = {
+  id: number;
+  nome: string;
+  email: string;
+  nivel_acesso: string;
+};
+
+type AuthContextType = {
+  user: User | null;
+  token: string | null;
+  login: (user: User, token: string) => void;
   logout: () => void;
+};
+
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+
+const adminPaths = [
+  '/dashboard-admin',
+  '/manage-games',
+  '/add-game',
+  '/edit-game',
+];
+
+function isAdminArea(pathname: string) {
+  return adminPaths.some((path) => pathname.startsWith(path));
 }
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+function getSessionByPath() {
+  const pathname = window.location.pathname;
+  const adminArea = isAdminArea(pathname);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const storedUser = localStorage.getItem(adminArea ? 'adminUser' : 'userUser');
+  const storedToken = localStorage.getItem(adminArea ? 'adminToken' : 'userToken');
+
+  return {
+    user: storedUser ? JSON.parse(storedUser) : null,
+    token: storedToken || null,
+  };
+}
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const initialSession = getSessionByPath();
+
+  const [user, setUser] = useState<User | null>(initialSession.user);
+  const [token, setToken] = useState<string | null>(initialSession.token);
 
   useEffect(() => {
-    const storagedUser = localStorage.getItem('@KeysForge:user');
-    const storagedToken = localStorage.getItem('@KeysForge:token');
+    const syncSession = () => {
+      const session = getSessionByPath();
+      setUser(session.user);
+      setToken(session.token);
+    };
 
-    if (storagedUser && storagedToken) {
-      try {
-        setUser(JSON.parse(storagedUser));
-      } catch (error) {
-        console.error('Erro ao converter usuário do localStorage:', error);
-        localStorage.removeItem('@KeysForge:user');
-        localStorage.removeItem('@KeysForge:token');
-      }
-    }
+    syncSession();
+
+    window.addEventListener('storage', syncSession);
+    window.addEventListener('focus', syncSession);
+
+    return () => {
+      window.removeEventListener('storage', syncSession);
+      window.removeEventListener('focus', syncSession);
+    };
   }, []);
 
-  const login = (userData: IUser, token: string) => {
-    if (!userData || !token) {
-      console.error('Dados inválidos no login');
-      return;
+  const login = (userData: User, tokenData: string) => {
+    if (userData.nivel_acesso === 'admin') {
+      localStorage.setItem('adminUser', JSON.stringify(userData));
+      localStorage.setItem('adminToken', tokenData);
+    } else {
+      localStorage.setItem('userUser', JSON.stringify(userData));
+      localStorage.setItem('userToken', tokenData);
     }
 
     setUser(userData);
-    localStorage.setItem('@KeysForge:user', JSON.stringify(userData));
-    localStorage.setItem('@KeysForge:token', token);
+    setToken(tokenData);
   };
 
   const logout = () => {
-    localStorage.removeItem('@KeysForge:user');
-    localStorage.removeItem('@KeysForge:token');
+    const pathname = window.location.pathname;
+
+    if (isAdminArea(pathname)) {
+      localStorage.removeItem('adminUser');
+      localStorage.removeItem('adminToken');
+    } else {
+      localStorage.removeItem('userUser');
+      localStorage.removeItem('userToken');
+    }
+
     setUser(null);
+    setToken(null);
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        authenticated: !!user,
-        user,
-        login,
-        logout
-      }}
-    >
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

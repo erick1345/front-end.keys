@@ -6,24 +6,27 @@
 }
 
 .dashboard-admin h1 {
-  font-size: 34px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
+
+.dashboard-error {
+  margin-bottom: 16px;
+  color: #f87171;
+}
+
+/* CARDS */
 
 .dashboard-cards {
   display: flex;
   gap: 20px;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 .card {
   flex: 1;
-  min-width: 250px;
   background: linear-gradient(135deg, #0f172a, #1e293b);
-  border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  padding: 20px;
+  border-radius: 12px;
   transition: 0.3s;
 }
 
@@ -31,24 +34,102 @@
   transform: translateY(-5px);
 }
 
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
 .card p {
-  font-size: 30px;
+  font-size: 28px;
   color: #38bdf8;
+}
+
+.card.alert {
+  border: 2px solid #ef4444;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+.card.alert p {
+  color: #ef4444;
+}
+
+/* GRID */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* CHART */
+
+.chart {
+  background: #0f172a;
+  padding: 20px;
+  border-radius: 12px;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.chart h2 {
+  margin-bottom: 18px;
+}
+
+.chart-box {
+  height: 320px;
+  width: 100%;
+}
+
+.sales-chart-box {
+  height: 260px;
+}
+
+.sales-total-box {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.sales-total-box div {
+  display: flex;
+  flex-direction: column;
+}
+
+.sales-total-right {
+  text-align: right;
+}
+
+.sales-total-label {
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.sales-total-value {
+  color: #22c55e;
+  font-size: 22px;
   font-weight: bold;
 }
 
+/* LISTA */
+
 .dashboard-list {
   background: #0f172a;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  padding: 20px;
+  border-radius: 12px;
 }
 
 .table-header,
 .game-item {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  padding: 15px 0;
+  gap: 10px;
+  padding: 12px 0;
   border-bottom: 1px solid #1e293b;
 }
 
@@ -59,4 +140,72 @@
 
 .game-item span {
   color: white;
+}
+
+/* RANKING */
+
+.ranking {
+  background: #0f172a;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.ranking h2 {
+  margin-bottom: 14px;
+}
+
+.ranking .item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #1e293b;
+}
+
+.danger {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 900px) {
+  .dashboard-cards {
+    flex-direction: column;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-admin {
+    padding: 16px;
+    margin: 24px auto;
+  }
+
+  .table-header,
+  .game-item {
+    grid-template-columns: 1.5fr 1fr 0.7fr;
+    font-size: 14px;
+  }
+
+  .chart {
+    min-height: 380px;
+  }
+
+  .chart-box {
+    height: 280px;
+  }
+
+  .sales-chart-box {
+    height: 240px;
+  }
+
+  .sales-total-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sales-total-right {
+    text-align: left;
+  }
 }

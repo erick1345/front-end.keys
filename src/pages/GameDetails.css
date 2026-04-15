@@ -1,0 +1,156 @@
+.game-details-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+  color: white;
+  padding: 32px;
+}
+
+.game-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.game-details-top {
+  margin-bottom: 24px;
+}
+
+.back-button {
+  background: #1e293b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.back-button:hover {
+  background: #334155;
+  transform: translateY(-1px);
+}
+
+.game-details-card {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 28px;
+  background: rgba(15, 23, 42, 0.92);
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.game-details-image-area img {
+  width: 100%;
+  border-radius: 18px;
+  object-fit: cover;
+  display: block;
+}
+
+.game-details-info h1 {
+  margin: 0 0 10px;
+  font-size: 40px;
+}
+
+.game-platform {
+  color: #94a3b8;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.game-price {
+  font-size: 30px;
+  font-weight: 800;
+  color: #38bdf8;
+  margin-bottom: 10px;
+}
+
+.game-stock {
+  color: #cbd5e1;
+  margin-bottom: 22px;
+  font-size: 16px;
+}
+
+.game-description-box,
+.requirements-box {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.game-description-box h2,
+.requirements-box h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #f8fafc;
+}
+
+.game-description-box p {
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.game-requirements {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.requirements-box ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.game-actions {
+  margin-top: 10px;
+}
+
+.buy-button {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 16px;
+  color: #062033;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  transition: 0.25s;
+}
+
+.buy-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(56, 189, 248, 0.3);
+}
+
+@media (max-width: 980px) {
+  .game-details-card {
+    grid-template-columns: 1fr;
+  }
+
+  .game-requirements {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .game-details-page {
+    padding: 18px;
+  }
+
+  .game-details-card {
+    padding: 18px;
+  }
+
+  .game-details-info h1 {
+    font-size: 30px;
+  }
+
+  .game-price {
+    font-size: 24px;
+  }
+}

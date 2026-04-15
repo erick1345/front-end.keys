@@ -1,0 +1,54 @@
+.footer {
+  background:#0F172A;
+  color: white;
+  padding: 30px 20px; /* Reduzi um pouco o padding já que tem menos conteúdo */
+  position: relative;
+  border-top: 1px solid rgba(56, 189, 248, 0.4);
+  box-shadow: 0px -10px 25px -5px rgba(56, 189, 248, 0.3);
+  width: 100%;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espaço uniforme entre os textos */
+}
+
+.footer h3 {
+  margin: 0;
+  font-size: 24px; /* Ajustei o tamanho para ficar mais harmônico */
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.footer p {
+  color: white;
+  margin: 0;
+  font-size: 14px;
+}
+
+.footer-copy {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Ajuste fino para Celular */
+@media (max-width: 768px) {
+  .footer {
+    padding: 25px 15px;
+  }
+  
+  .footer h3 {
+    font-size: 20px;
+  }
+
+  .footer p {
+    font-size: 13px;
+  }
+}
